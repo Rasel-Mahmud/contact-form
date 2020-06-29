@@ -19,3 +19,6 @@ require_once __DIR__ .'/option-panel/settings.php';
 
 // Form Post Type
 require_once __DIR__ .'/post-type/form.php';
+
+// From Meta Box
+require_once __DIR__ . '/meta-box/options.php';
