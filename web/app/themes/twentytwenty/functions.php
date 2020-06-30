@@ -788,9 +788,9 @@ function contact_form()
 {
     $form_data = $_POST['formData'];
     send_email_to_user($form_data);
-    send_email_to_admin($form_data);
+//    send_email_to_admin($form_data);
     // Another Email
-    send_email_to_another($form_data);
+//    send_email_to_another($form_data);
     die();
 }
 

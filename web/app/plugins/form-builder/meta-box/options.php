@@ -8,9 +8,10 @@ if (class_exists('CSF')) {
 //
 // Create a metabox
     CSF::createMetabox($prefix, array(
-    'title'     => 'Form Meta Box',
-    'post_type' => 'form',
-    'theme'     => 'light',
+    'title'           => 'Form Meta Box',
+    'post_type'       => 'page',
+    'theme'           => 'light',
+    'page_templates'  => 'templates/template-email.php',
     ));
 
 //
@@ -30,7 +31,7 @@ if (class_exists('CSF')) {
 //
 // Repeater Option Field
     array(
-      'id'     => 'form-select-option',
+      'id'     => 'form-option-option',
       'type'   => 'repeater',
       'title'  => 'Add Form Options',
       'fields' => array(
@@ -38,7 +39,7 @@ if (class_exists('CSF')) {
       //
       // Option Label
         array(
-          'id'      => 'form-option-label',
+          'id'      => 'option-label',
           'type'    => 'text',
           'title'   => 'Option Label',
         ),
@@ -46,7 +47,7 @@ if (class_exists('CSF')) {
         //
         // Upload Select
         array(
-          'id'    => 'form-option',
+          'id'    => 'option-value',
           'type'  => 'upload',
           'title' => 'Option',
         ),
@@ -116,7 +117,7 @@ if (class_exists('CSF')) {
       //
       // Repeater Select Field
       array(
-        'id'     => 'form-select-option',
+        'id'     => 'form-radio-option',
         'type'   => 'repeater',
         'title'  => 'Add Radio Options',
         'fields' => array(

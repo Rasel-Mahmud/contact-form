@@ -9,6 +9,15 @@
  */
 
 get_header();
+$meta_option = get_post_meta(get_the_ID(), 'form_meta', true);
+$option_label = !empty($meta_option['form-option-field-label']) ? $meta_option['form-option-field-label']: '';
+$option_fields = !empty($meta_option['form-option-option']) ? $meta_option['form-option-option']: '';
+
+$select_label = !empty($meta_option['form-select-field-label']) ? $meta_option['form-select-field-label']: '';
+$select_fields = !empty($meta_option['form-select-option']) ? $meta_option['form-select-option']: '';
+
+$radio_label = !empty($meta_option['form-radio-field-label']) ? $meta_option['form-radio-field-label']: '';
+$radio_fields = !empty($meta_option['form-radio-option']) ? $meta_option['form-radio-option']: '';
 ?>
   <main id="site-content" role="main">
 
@@ -45,56 +54,35 @@ get_header();
         </div>
 
         <!-- Checkbox -->
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="c-one" id="checkBoxOne" name="c-one">
-          <label class="form-check-label" for="checkBoxOne">
-            Check Box One
-          </label>
-        </div>
-
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="c-two" id="checkBoxTwo" name="c-two">
-          <label class="form-check-label" for="checkBoxTwo">
-            Check Box Two
-          </label>
-        </div>
-
-        <div class="form-check" name="c-three">
-          <input class="form-check-input" type="checkbox" value="c-three" id="checkBoxThree" name="c-three">
-          <label class="form-check-label" for="checkBoxThree">
-            Check Box Three
-          </label>
-        </div>
-
-        <div class="form-check" name="c-four">
-          <input class="form-check-input" type="checkbox" value="c-four" id="checkBoxFour" name="c-four">
-          <label class="form-check-label" for="checkBoxFour">
-            Check Box Four
-          </label>
-        </div>
+            <?= $option_label; ?>
+            <?php foreach ($option_fields as $option_field) : ?>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="<?= $option_field['option-label'] ?>" id="<?= $option_field['option-label'] ?>" name="<?= $option_field['option-label'] ?>">
+            <label class="form-check-label" for="<?= $option_field['option-label'] ?>">
+                <?= $option_field['option-label'] ?>
+            </label>
+          </div>
+            <?php endforeach; ?>
 
         <!-- Select Options -->
         <div class="form-group">
-          <label for="selectOption">Select Options</label>
+          <label for="selectOption"><?= $select_label; ?></label>
           <select class="form-control" id="selectOption" name="select-box">
-            <option value="one">One</option>
-            <option value="two">Two</option>
-            <option value="three">Three</option>
-            <option value="four">Four</option>
-            <option value="five">Five</option>
+            <?php foreach ($select_fields as $select_field) : ?>
+            <option value="<?= $select_field['form-select'] ?>"><?= $select_field['form-select'] ?></option>
+            <?php endforeach; ?>
           </select>
         </div>
 
 
         <!-- Radio Button -->
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="gender" id="radioOne" value="male">
-          <label class="form-check-label" for="radioOne">Male</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="gender" id="radioTwo" value="female">
-          <label class="form-check-label" for="radioTwo">Female</label>
-        </div>
+            <?= $radio_label; ?>
+            <?php foreach ($radio_fields as $radio_field) : ?>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="<?= $radio_field['form-select']; ?>" value="<?= $radio_field['form-select']; ?>">
+                <label class="form-check-label" for="<?= $radio_field['form-select']; ?>"><?= $radio_field['form-select']; ?></label>
+              </div>
+            <?php endforeach; ?>
 
         <button type="submit" id="form-submit">Submit</button>
 
