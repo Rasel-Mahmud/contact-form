@@ -6469,3 +6469,13 @@ a.to-the-top > * {
 		top: 0;
 	}
 }
+
+
+
+/* Extra CSS for Form */
+.contact-form-wrapper {
+	padding: 100px 0;
+}
+.contact-form-wrapper .form-group {
+	margin: 50px 0px;
+}
