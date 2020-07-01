@@ -8,7 +8,7 @@
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.0
  */
-
+require 'vendor/autoload.php';
 /**
  * Table of Contents:
  * Theme Support
@@ -787,28 +787,29 @@ add_action('wp_ajax_nopriv_sendMailData', 'contact_form');
 function contact_form()
 {
     $form_data = $_POST['formData'];
-    send_email_to_user($form_data);
-//    send_email_to_admin($form_data);
+    $status = [];
+    $status['user_email'] = send_email_to_user($form_data);
+    $status['admin_email'] = send_email_to_admin($form_data);
+
+    wp_send_json($status);
     // Another Email
 //    send_email_to_another($form_data);
     die();
 }
 
-function send_email_to_user($data_details)
+function send_email_to_admin($data_details)
 {
     // Parse Data
     $parseData = [];
     wp_parse_str($data_details, $parseData);
-    // Admin Email
+
+    // Admin Email (to, toName)
     $admin_email = get_option('admin_email');
+    $admin_name = 'AWS WEB';
 
-    // Email Header
-    $headers[] = 'Content-Type: text/html; charset=UTF-8';
-    $headers[] = 'From: ' . $admin_email;
-    $headers[] = 'Reply-to: ' . $parseData['email'];
-
-    // who are we sending the email to?
-    $send_to = $admin_email;
+    // From
+    $from = 'rajin.m420@gmail.com';
+    $formName = 'AWS HOST';
 
     // Subject
     $subject = 'Email From, From Builder';
@@ -821,33 +822,24 @@ function send_email_to_user($data_details)
             $message .= '<strong>' . $name . ' : </strong>' . $value .'<br />';
         }
     }
+    return sendGrid($from, $formName, $subject, $admin_email, $admin_name, $message);
+    // $from, $formName, $subject, $to, $toName, $message
 
-    try {
-        if (wp_mail($send_to, $subject, $message, $headers)) {
-            echo 'admin email send';
-        } else {
-            echo 'error admin email';
-        }
-    } catch (Exception $e) {
-        echo ($e->getMessage());
-    }
 }
 
-function send_email_to_admin($data_details)
+function send_email_to_user($data_details)
 {
     // Parse Data
     $parseData = [];
     wp_parse_str($data_details, $parseData);
 
-    // user Email
+    // user Email & Name  (to, toName)
     $user_email = $parseData['email'];
+    $user_name = $parseData['name'];
 
-    // Email Header
-    $headers[] = 'Content-Type: text/html; charset=UTF-8';
-    $headers[] = 'From: rasel.wp@gmail.com';
-
-    // who are we sending the email to?
-    $send_to = $user_email;
+    // From
+    $from = 'rajin.m420@gmail.com';
+    $formName = 'AWS HOST';
 
     // Subject
     $subject = 'Your message has successfully send';
@@ -861,15 +853,9 @@ function send_email_to_admin($data_details)
         }
     }
 
-    try {
-        if (wp_mail($send_to, $subject, $message, $headers)) {
-            echo "user email email Send";
-        } else {
-            echo "user email error Happen";
-        }
-    } catch (Exception $e) {
-        echo ($e->getMessage());
-    }
+    return sendGrid($from, $formName, $subject, $user_email, $user_name, $message);
+    // $from, $formName, $subject, $to, $toName, $message
+
 }
 
 
@@ -899,26 +885,30 @@ function send_email_to_another($data_details) {
             $message .= '<strong>' . $name . ' : </strong>' . $value .'<br />';
         }
     }
-
-      try {
-        if (wp_mail($send_to, $subject, $message, $headers)) {
-            echo "user email email Send";
-        } else {
-            echo "user email error Happen";
-        }
-      } catch (Exception $e) {
-        echo ($e->getMessage());
-      }
 }
 
-function mailtrap($phpmailer)
+
+
+
+function sendGrid($from, $formName, $subject, $to, $toName, $message)
 {
-    $phpmailer->isSMTP();
-    $phpmailer->Host = 'smtp.mailtrap.io';
-    $phpmailer->SMTPAuth = true;
-    $phpmailer->Port = 2525;
-    $phpmailer->Username = 'b719a4c13f7b7a';
-    $phpmailer->Password = '7c9812af25b6ea';
-}
+    $API = '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';
+    $email = new \SendGrid\Mail\Mail();
+    $email->setFrom($from, $formName);
+    $email->setSubject($subject);
+    $email->addTo($to, $toName);
+    $email->addContent("text/plain", $message);
+    $email->addContent("text/html", $message);
+    $sendgrid = new \SendGrid($API);
 
-add_action('phpmailer_init', 'mailtrap');
+    try {
+        $response = $sendgrid->send($email);
+        print $response->statusCode() . "\n";
+        print_r($response->headers());
+        print $response->body() . "\n";
+        return true;
+    } catch (Exception $e) {
+        echo 'Caught exception: '. $e->getMessage() ."\n";
+        return false;
+    }
+}

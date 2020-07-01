@@ -1,0 +1,12 @@
+{
+    "name": "hasan/twentytwenty",
+    "authors": [
+        {
+            "name": "Mahamud Hasan Rashel",
+            "email": "m.hasan@sekai-lab-bd.com"
+        }
+    ],
+    "require": {
+        "sendgrid/sendgrid": "~7"
+    }
+}

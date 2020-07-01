@@ -13,6 +13,7 @@
                 action: "sendMailData",
                 formData: formData
             }).then(function (res) {
+                console.log(res.data)
                 // Send to the thank you page
             });
 
