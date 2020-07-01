@@ -892,7 +892,6 @@ function send_email_to_another($data_details) {
 
 function sendGrid($from, $formName, $subject, $to, $toName, $message)
 {
-    $API = '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';
     $email = new \SendGrid\Mail\Mail();
     $email->setFrom($from, $formName);
     $email->setSubject($subject);
