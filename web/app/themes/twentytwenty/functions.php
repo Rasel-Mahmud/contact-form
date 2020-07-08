@@ -865,3 +865,23 @@ function cha_khamu()
 {
   echo "Cha Khaw";
 }
+
+// SMTP Settings
+add_action('phpmailer_init', 'send_smtp_email');
+function send_smtp_email($phpmailer)
+{
+  $smtp_username = '';
+  $smtp_password = '';
+  $smtp_host = '';
+  $smtp_port = '';
+//    $smtp_secure = '';
+  if ($smtp_username && $smtp_password && $smtp_host) {
+    $phpmailer->isSMTP();
+    $phpmailer->Host = $smtp_host;
+    $phpmailer->Port = $smtp_port;
+//        $phpmailer->SMTPSecure = $smtp_secure;
+    $phpmailer->SMTPAuth = true;
+    $phpmailer->Username = $smtp_username;
+    $phpmailer->Password = $smtp_password;
+  }
+}
