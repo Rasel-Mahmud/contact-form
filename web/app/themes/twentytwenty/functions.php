@@ -865,24 +865,3 @@ function cha_khamu()
 {
   echo "Cha Khaw";
 }
-
-
-// SMTP Setup
-add_action('phpmailer_init', 'send_smtp_email');
-function send_smtp_email($phpmailer)
-{
-    $smtp_username = 'postmaster@mail.oiiio.tech';
-    $smtp_password = 'c714b2b561bffa3343565f89a3090018-87c34c41-55eeec60';
-    $smtp_host = 'smtp.mailgun.org';
-    $smtp_port = '587';
-//    $smtp_secure = '';
-    if ($smtp_username && $smtp_password && $smtp_host) {
-        $phpmailer->isSMTP();
-        $phpmailer->Host = $smtp_host;
-        $phpmailer->Port = $smtp_port;
-//        $phpmailer->SMTPSecure = $smtp_secure;
-        $phpmailer->SMTPAuth = true;
-        $phpmailer->Username = $smtp_username;
-        $phpmailer->Password = $smtp_password;
-    }
-}
