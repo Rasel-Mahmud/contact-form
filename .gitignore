@@ -12,7 +12,10 @@ web/.htaccess
 
 # Logs
 *.log
-
+.idea/form-builder.iml
+.idea/php.xml
+web/app/.DS_Store
+web/app/themes/twentytwenty/vendor
 # Dotenv
 .env
 .env.*
